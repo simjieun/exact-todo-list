@@ -1,0 +1,14 @@
+{
+  "name": "daily-todo",
+  "private": true,
+  "scripts": {
+    "build": "bun exact.mjs web-build --out dist && node scripts/apply-favicon.mjs",
+    "favicon": "node scripts/apply-favicon.mjs",
+    "start": "bun exact.mjs serve dist",
+    "test:data": "node --test tests/storage.test.mjs",
+    "test": "bun exact.mjs test web",
+    "verify": "bun exact.mjs verify"
+  },
+  "dependencies": {},
+  "type": "module"
+}

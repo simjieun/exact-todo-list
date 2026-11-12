@@ -1,0 +1,15 @@
+tamber daily
+
+theme
+  AccentColor = light-dark(#3182f6, #3182f6)
+  surface.page = light-dark(#f2f4f6, #101013)
+  surface.card = light-dark(#ffffff, #202027)
+  surface.fill = light-dark(#f2f4f6, #2c2c35)
+  surface.track = light-dark(#e5e8eb, #2c2c35)
+  surface.soft = light-dark(#e8f3ff, #1b2a44)
+  text.primary = light-dark(#191f28, #f9fafb)  pair=surface.card
+  text.secondary = light-dark(#4e5968, #a0a4ae)  pair=surface.card
+  text.accent = light-dark(#1b64da, #7cb4ff)  pair=surface.soft
+  text.danger = light-dark(#d6222f, #ff6b77)  pair=surface.card
+  brand.fill = #3182f6  scheme=fixed
+  ink.on-brand = #ffffff  scheme=fixed

@@ -1,0 +1,72 @@
+test "add complete rename and keep after reload"
+  epoch "2026-11-12T01:00:00Z"
+  time-zone "Asia/Seoul"
+  type "draft" "책 10쪽 읽기"
+  tap "add"
+  clock data
+  expect text "remaining" == "남은 할 일 1개"
+  tap "done-1"
+  clock data
+  expect text "remaining" == "남은 할 일 0개"
+  tap "more-1"
+  tap "edit-1"
+  clock settle
+  type "edit-title" "책 20쪽 읽기"
+  tap "edit-save"
+  clock data
+  clock settle
+  reload
+  expect text "title-1" == "책 20쪽 읽기"
+  expect state log.items.0 .done == true
+
+test "days are separate and a cancelled deletion keeps the task"
+  epoch "2026-11-12T01:00:00Z"
+  time-zone "Asia/Seoul"
+  type "draft" "오늘의 할 일"
+  tap "add"
+  clock data
+  tap "next"
+  clock data
+  expect text "day" == "2026-11-13"
+  expect text "remaining" == "남은 할 일 0개"
+  type "draft" "내일의 할 일"
+  tap "add"
+  clock data
+  tap "today"
+  clock data
+  expect text "title-1" == "오늘의 할 일"
+  tap "more-1"
+  tap "delete-1"
+  clock settle
+  tap "delete-cancel"
+  clock settle
+  expect text "title-1" == "오늘의 할 일"
+  tap "delete-1"
+  clock settle
+  tap "delete-confirm-button"
+  clock data
+  clock settle
+  expect tree missing "title-1"
+  reload
+  expect text "remaining" == "남은 할 일 0개"
+
+test "filters and midnight rollover"
+  epoch "2026-11-12T14:59:00Z"
+  time-zone "Asia/Seoul"
+  type "draft" "마무리"
+  tap "add"
+  clock data
+  tap "done-1"
+  clock data
+  tap "filter-open"
+  expect tree missing "title-1"
+  tap "filter-done"
+  expect text "title-1" == "마무리"
+  tap "filter-all"
+  clock +120000
+  clock data
+  expect text "day" == "2026-11-13"
+  expect text "remaining" == "남은 할 일 0개"
+  tap "previous"
+  clock data
+  expect text "title-1" == "마무리"
